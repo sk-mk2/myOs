@@ -1,6 +1,6 @@
 ## 参考サイト
-https://github.com/pollenjp/myHariboteOS
-
+- [ubuntuで同じことやってる](https://github.com/pollenjp/myHariboteOS)
+- [wiki](http://oswiki.osask.jp/)
 ## バイナリ編集:
 vim -b $file  バイナリモードで開く  
 :%!xxd  16進数ダンプ方式に変換  
@@ -13,11 +13,14 @@ vim -b $file  バイナリモードで開く
 nasm
 nasm *.asm -o *.img
 
-## virtualbox
+## 動かす環境
+- virtualbox
+- qemu
+  - qemu-system-1386 *.img
 
 ## 代表的なレジスタ
 AX：accumulator
-CX：counter
+CX：count
 DX：data
 BX：base
 SP：stack pointer
