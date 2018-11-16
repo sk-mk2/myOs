@@ -7,10 +7,10 @@ void sprintf(char *str, char *fmt, ...);
 
 // asmhead.asm
 struct BootInfo {   // 1x5+2x2 = 9 byte
-  char cyls,        // ブートセクタはどこまでディスクを読み込んだのか
-       leds,        // ブート時のキーボードのLED状態
-       vmode,       // ビデオモード 何ビットカラーか
-       reserve;
+  char cyls;        // ブートセクタはどこまでディスクを読み込んだのか
+  char leds;        // ブート時のキーボードのLED状態
+  char vmode;       // ビデオモード 何ビットカラーか
+  char reserve;
   short scrnx, scrny;   // 画像解像度
   char *vram;
 };
@@ -20,11 +20,15 @@ struct BootInfo {   // 1x5+2x2 = 9 byte
 // nasmfunc.c
 void io_hlt(void);
 void io_cli(void);
+void io_sti(void);
 void io_out8(int port, int data);
 int  io_load_eflags(void);
 void io_store_eflags(int eflags);
 void load_gdtr(int limit, int addr);
 void load_idtr(int limit, int addr);
+void asm_inthandler21(void);
+void asm_inthandler27(void);
+void asm_inthandler2c(void);
 
 
 // graphic.c
@@ -77,10 +81,14 @@ void init_gdtidt(void);
 #define LIMIT_BOTPAK  0x0007ffff  // 4 byte
 #define AR_DATA32_RW  0x4092      // 2 byte
 #define AR_CODE32_ER  0x409a      // 2 byte
+#define AR_INTGATE32  0x008e      // 2 byte
 
 
 // int.c
 void init_pic(void);
+void inthandler21(int *esp);
+void inthandler27(int *esp);
+void inthandler2c(int *esp);
 #define PIC0_ICW1 0x0020
 #define PIC0_OCW2 0x0020
 #define PIC0_IMR  0x0021

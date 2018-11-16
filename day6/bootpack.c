@@ -12,9 +12,10 @@ void HariMain(void)
   char s[40], mcursor[256];
   int mx, my;   // mouse x, mouse y
   
-  init_pic();
-
   init_gdtidt();
+  init_pic();
+  io_sti(); 
+
   init_palette();
   init_screen8(binfo->vram, binfo->scrnx, binfo->scrny);
 
@@ -30,6 +31,8 @@ void HariMain(void)
 
   sprintf(s, "scrnx = %d", binfo->scrnx);
   putfonts8_asc(binfo->vram, binfo->scrnx, 16, 64, COL8_FFFFFF, s);
+  io_out8(PIC0_IMR, 0xf9); 
+  io_out8(PIC1_IMR, 0xef);
 
   for(;;){
     io_hlt();
