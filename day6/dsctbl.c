@@ -1,30 +1,6 @@
-// bootpack.c
+// dsctbl.c
 
-
-struct BootInfo {
-  char cyls, leds, vmode, reserve;    // 1 byte
-  short scrnx, scrny;                 // 2 byte
-  char *vram;                         // 4 byte
-};
-
-struct SegmentDescriptor {            // 8 byte
-  short limit_low, base_low;          // 2 byte * 2
-  char base_mid, access_right;        // 1 byte * 2
-  char limit_high, base_high;         // 1 byte * 2
-};
-
-struct GateDescriptor {               // 10 byte   
-  short offset_low, selector;         // 2 byte * 2
-	char dw_count, access_right;        // 1 byte * 2
-	short offset_high;                  // 2 byte * 2
-};
-
-void set_segmdesc(struct SegmentDescriptor * sd, unsigned int limit, int base, int ar);
-void set_gatedesc(struct GateDescriptor * gd, int offset, int selector, int ar);
-void init_gdtidt(void);
-void load_gdtr(int limit, int addr);
-void load_idtr(int limit, int addr);
-
+#include "bootpack.h";
 
 void init_gdtidt(void)
   // global segmentation descriptor table
@@ -54,6 +30,23 @@ void init_gdtidt(void)
 }
 
 
+/*------------------------------------------------------------
+ *  set_segmdesc
+ *  
+ *  Parameters
+ *  ----------
+ *  access_right:
+ *    xxxx0000xxxxxxxx
+ *    ----
+ *    GD00 <-- 拡張アクセス権
+ *    G: G bit
+ *    D: segment mode (1:32bit, 0:16bit)
+ *      - 00000000(0x00) :未使用の descriptor table 。
+ *      - 10010010(0x92) :システム専用の読み書き可能なセグメント。実行はできない。
+ *      - 10011010(0x9a) :システム専用の実行可能なセグメント。読み込みもOK。書き込みはできない。
+ *      - 11110010(0xf2) :アプリケーション用の読み書き可能なセグメント。実行はできない。
+ *      - 11111010(0xfa) :アプリケーション用の実行可能なセグメント。読み込みもOK。書き込みはできない。
+ *------------------------------------------------------------*/
 void set_segmdesc(struct SegmentDescriptor * sd,  // 4 byte
                   unsigned int limit,             // 4 byte
                   int base,                       // 4 byte
