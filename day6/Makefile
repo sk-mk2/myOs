@@ -15,23 +15,14 @@ ipl10.bin : ipl10.asm
 asmhead.bin : asmhead.asm
 	nasm $< -o $@ -l asmhead.lst
 
-bootpack.o : bootpack.c
-	$(CC) $(CFLAGS) $< -o $@
 
 nasmfunc.o : nasmfunc.asm
 	nasm -f elf $< -o $@ -l nasmfunc.lst
 
-hankaku.o : hankaku.c
-	$(CC) $(CFLAGS) $< -o $@
+%.o : %.c
+	$(CC) $(CFLAGS) $*.c -o $*.o
 
-mysprintf.o : mysprintf.c
-	$(CC) $(CFLAGS) -nostdlib $^ -o $@
 
-graphic.o : graphic.c
-	$(CC) $(CFLAGS) $< -o $@
-
-dsctbl.o : dsctbl.c
-	$(CC) $(CFLAGS) $< -o $@
 
 #OBJS_BOOTPACK = bootpack.c nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o
 #bootpack.hrb : $(OBJS_BOOTPACK) har.ld
