@@ -27,7 +27,7 @@ nasmfunc.o : nasmfunc.asm
 #OBJS_BOOTPACK = bootpack.c nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o
 #bootpack.hrb : $(OBJS_BOOTPACK) har.ld
 #	$(CC) -m32 -march=i486 -nostdlib -nostdinc -T har.ld $(OBJS_BOOTPACK) -o $@
-OBJS_BOOTPACK = bootpack.o nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o
+OBJS_BOOTPACK = bootpack.o nasmfunc.o hankaku.o mysprintf.o graphic.o dsctbl.o int.o
 bootpack.hrb : $(OBJS_BOOTPACK) har.ld
 	ld -m elf_i386 -T har.ld $(OBJS_BOOTPACK) -o $@
 

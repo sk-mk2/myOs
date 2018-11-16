@@ -1,6 +1,6 @@
 // bootpack.c
 //headerファイルに書き込めばこれで読み込める
-#include "bootpack.h";
+#include "bootpack.h"
 //externは外部ファイルから読み込むとき
 //--------------------
 //  HariMain
@@ -11,6 +11,8 @@ void HariMain(void)
   extern char hankaku[4096];
   char s[40], mcursor[256];
   int mx, my;   // mouse x, mouse y
+  
+  init_pic();
 
   init_gdtidt();
   init_palette();
