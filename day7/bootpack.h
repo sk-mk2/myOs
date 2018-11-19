@@ -21,6 +21,7 @@ struct BootInfo {   // 1x5+2x2 = 9 byte
 void io_hlt(void);
 void io_cli(void);
 void io_sti(void);
+void io_stihlt(void);
 int io_in8(int port);
 void io_out8(int port, int data);
 int  io_load_eflags(void);
@@ -86,6 +87,9 @@ void init_gdtidt(void);
 
 
 // int.c
+struct KEYBUF {
+    unsigned char data, flag;   
+};
 void init_pic(void);
 void inthandler21(int *esp);
 void inthandler27(int *esp);
