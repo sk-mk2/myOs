@@ -37,11 +37,16 @@ void HariMain(void)
 
   for(;;){
     io_cli();
-    if (keybuf.flag == 0) {
+    if (keybuf.next == 0) {
         io_stihlt();
     } else {
-        i = keybuf.data;
-        keybuf.flag = 0;
+        i = keybuf.data[0];
+        keybuf.next--;
+        int j = 0;
+        for(j; j < keybuf.next; j++) {
+            keybuf.data[j] = keybuf.data[j + 1];
+        }
+
         io_sti();
         sprintf(s, "%d", i);
         boxfill8(binfo->vram, binfo->scrnx, COL8_008484, 0, 16, 15, 31);
