@@ -1,8 +1,7 @@
 # Makefile
 
 CC = gcc
-CFLAGS = -c -m32 -march=i486 -nostdlib
-
+CFLAGS = -c -m32 -march=i486 -nostdlib 
 
 ###########################
 
@@ -20,7 +19,7 @@ nasmfunc.o : nasmfunc.asm
 	nasm -f elf $< -o $@ -l nasmfunc.lst
 
 %.o : %.c
-	$(CC) $(CFLAGS) $*.c -o $*.o
+	$(CC) $(CFLAGS) $*.c -o $*.o 
 
 
 

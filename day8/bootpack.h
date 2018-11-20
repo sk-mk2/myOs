@@ -1,7 +1,6 @@
 
 // bootpack.h
 
-
 // stdio
 void sprintf(char *str, char *fmt, ...);
 
