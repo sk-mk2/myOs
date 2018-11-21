@@ -24,30 +24,6 @@ void init_pic(void)
   io_out8(PIC1_IMR, 0xff);    // 11111111 すべての割り込みを受け付けない
 }
 
-#define PORT_KEYDAT		0x0060
-
-struct FIFO8 keyfifo;
-struct FIFO8 mousefifo;
-void inthandler21(int *esp)
-{
-	unsigned char data;
-    io_out8(PIC0_OCW2, 0x61); //IRQ-01受付完了をPICに通知
-    data = io_in8(PORT_KEYDAT);
-    fifo8_put(&keyfifo, data);
-
-    return;
-}
-
-void inthandler2c(int *esp)
-{
-	unsigned char data;
-    //スレーブの奴らはマスタも設定してあげなきゃいけない
-    io_out8(PIC1_OCW2, 0x64); //IRQ-12受付完了をPIC1に通知
-    io_out8(PIC0_OCW2, 0x62); //IRQ-02受付完了をPIC0に通知
-    data = io_in8(PORT_KEYDAT);
-    fifo8_put(&mousefifo, data);
-    return;
-}
 
 void inthandler27(int *esp)
 {
